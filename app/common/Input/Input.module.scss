@@ -1,0 +1,40 @@
+@use '../../styles/abstracts/variables' as *;
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+}
+
+.label {
+    font-size: $font-md;
+    font-weight: 600;
+}
+
+.inputWrapper {
+    display: flex;
+    align-items: center;
+    padding: $spacing-xs;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: $white;
+}
+
+.icon {
+    font-size: $font-md;
+    color: $primary-color;
+    margin-right: 0.8rem;
+}
+
+.input {
+    font-size: $font-md;
+    border: none;
+    background-color: transparent;
+    flex: 1;
+    outline: none;
+}
+
+.error {
+    font-size: $font-sm;
+    color: $danger-color;
+}

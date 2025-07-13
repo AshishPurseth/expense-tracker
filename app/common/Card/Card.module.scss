@@ -1,0 +1,33 @@
+@use '../../styles/abstracts/variables' as *;
+
+.card {
+    width: 55rem;
+    padding: $spacing-lg;
+    margin: 0 auto;
+    border-radius: 1rem;
+    box-shadow: 0 0.4rem 2rem rgba(0, 0, 0, 0.15);
+    background-color: $surface;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+
+    h2 {
+        font-size: $font-lg;
+        color: $primary-color;
+    }
+}
+
+.icon {
+    font-size: 2.4rem;
+    color: $primary-color;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+}

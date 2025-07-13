@@ -1,0 +1,29 @@
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+.layout {
+    display: grid;
+    grid-template-rows: 9rem 1fr 7rem;
+    grid-template-areas:
+        'header'
+        'content'
+        'footer';
+    min-height: 100vh;
+    background-color: $background;
+}
+
+.main {
+    display: grid;
+    grid-area: content;
+    place-items: center;
+    padding: $spacing-lg;
+}
+
+.footer {
+    grid-area: footer;
+    padding: $spacing-md;
+    font-size: $font-md;
+    text-align: center;
+    color: $white;
+    background-color: $secondary-color;
+}
