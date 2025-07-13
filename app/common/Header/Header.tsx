@@ -7,7 +7,7 @@ export const Header = () => {
     return (
         <header className={clsx(styles.header)}>
             <img
-                src="../../../public/purseth.png"
+                src="/public/purseth.png"
                 alt="Purseth Family Logo"
                 className={styles.logo}
             />
