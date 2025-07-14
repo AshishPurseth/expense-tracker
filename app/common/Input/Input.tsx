@@ -29,7 +29,7 @@ export const Input = ({ label, name, icon, error, className, ...rest }: Props) =
                 />
             </div>
 
-            {error && <p className={styles.error}>{error}</p>}
+            {error && <small className={styles.error}>{error}</small>}
         </div>
     )
 }
