@@ -6,7 +6,7 @@ const sessionStorage = createCookieSessionStorage({
     cookie: {
         name: '_session', // cookie name seen in browser
         secure: process.env.NODE_ENV === 'production',
-        secrets: ['super-secret-key'], // used to encrypt cookie
+        secrets: [process.env.SESSION_SECRET!],
         sameSite: 'lax',
         path: '/',
         httpOnly: true // JavaScript can't read this — secure
