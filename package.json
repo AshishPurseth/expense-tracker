@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "concurrently \"pnpm:remix\" \"pnpm:scss-types\"",
         "generate": "prisma generate",
-        "build": "dotenvx run -- pnpm run generate && remix vite:build",
+        "build": "pnpm generate && pnpm migrate deploy && remix vite:build",
         "remix": "dotenvx run -- remix vite:dev",
         "lint:fix": "eslint --ext .ts,.tsx,.cjs,.js . --fix",
         "lint:stylelint": "stylelint \"**/*.{css,scss}\" --fix --config .stylelintrc.cjs",
