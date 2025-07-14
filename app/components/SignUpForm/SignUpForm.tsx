@@ -7,22 +7,22 @@ export const SignUpForm = () => {
                 <Input
                     name="firstName"
                     type="text"
-                    label="firstName"
+                    label="First Name"
                 />
                 <Input
                     name="lastName"
                     type="text"
-                    label="lastName"
+                    label="Last Name"
                 />
                 <Input
                     name="email"
                     type="text"
-                    label="email"
+                    label="Email"
                 />
                 <Input
                     name="password"
                     type="password"
-                    label="password"
+                    label="Password"
                 />
             </Form>
         </Card>
