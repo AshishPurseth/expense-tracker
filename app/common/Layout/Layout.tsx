@@ -6,12 +6,13 @@ import styles from './Layout.module.scss'
 
 type Props = {
     children: ReactNode
+    userId: number
 }
 
-export const LayoutWrapper = ({ children }: Props) => {
+export const LayoutWrapper = ({ children, userId }: Props) => {
     return (
         <main className={clsx(styles.layout)}>
-            <Header />
+            <Header userId={userId} />
             <section className={clsx(styles.main)}>{children}</section>
             <footer className={clsx(styles.footer)}></footer>
         </main>

@@ -1,9 +1,11 @@
 import '~/styles/main.scss'
 
-import type { LinksFunction } from '@remix-run/node'
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
+import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node'
+import { json, Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react'
 
 import { LayoutWrapper } from '~/common'
+
+import { getUserId } from './utils/session.server'
 
 export const links: LinksFunction = () => [
     { rel: 'icon', href: '/favicon.png' },
@@ -19,7 +21,14 @@ export const links: LinksFunction = () => [
     }
 ]
 
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+    const userId = await getUserId(request)
+    return json({ userId })
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
+    const loaderData = useLoaderData<typeof loader>()
+    const userId = loaderData?.userId
     return (
         <html lang="en">
             <head>
@@ -32,7 +41,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Links />
             </head>
             <body>
-                <LayoutWrapper>{children}</LayoutWrapper>
+                <LayoutWrapper userId={userId}>{children}</LayoutWrapper>
                 <ScrollRestoration />
                 <Scripts />
             </body>

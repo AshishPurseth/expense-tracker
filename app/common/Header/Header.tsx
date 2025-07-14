@@ -1,9 +1,14 @@
 import { NavLink } from '@remix-run/react'
 import { clsx } from 'clsx'
 
+import { Form } from '../Form/Form'
 import styles from './Header.module.scss'
 
-export const Header = () => {
+type Props = {
+    userId: number
+}
+
+export const Header = ({ userId }: Props) => {
     return (
         <header className={clsx(styles.header)}>
             <img
@@ -22,6 +27,19 @@ export const Header = () => {
                     <li>
                         <NavLink to="/">Grocery</NavLink>
                     </li>
+                    {!userId ? (
+                        <li>
+                            <NavLink to="/login">Login</NavLink>
+                        </li>
+                    ) : (
+                        <li>
+                            <Form
+                                method="POST"
+                                btnLabel={undefined}>
+                                <button type="submit">Logout</button>
+                            </Form>
+                        </li>
+                    )}
                     <li>
                         <NavLink to="/signup">Sign Up</NavLink>
                     </li>

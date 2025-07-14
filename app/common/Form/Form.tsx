@@ -8,9 +8,10 @@ type Props = {
     method: 'POST' | 'GET'
     children: ReactNode
     className?: string
+    btnLabel?: string
 }
 
-export const Form = ({ children, className, method }: Props) => {
+export const Form = ({ children, className, method, btnLabel }: Props) => {
     const navigation = useNavigation()
 
     const isSubmitting = navigation.state === 'submitting'
@@ -19,13 +20,15 @@ export const Form = ({ children, className, method }: Props) => {
             method={method}
             className={clsx(styles.form, className)}>
             {children}
-            <div className={styles.actions}>
-                <button
-                    type="submit"
-                    disabled={isSubmitting}>
-                    {isSubmitting ? 'Submitting...' : 'Submit'}
-                </button>
-            </div>
+            {btnLabel !== undefined && (
+                <div className={styles.actions}>
+                    <button
+                        type="submit"
+                        disabled={isSubmitting}>
+                        {isSubmitting ? 'Submitting...' : btnLabel}
+                    </button>
+                </div>
+            )}
         </RemixForm>
     )
 }

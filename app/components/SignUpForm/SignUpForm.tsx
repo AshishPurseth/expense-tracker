@@ -14,7 +14,9 @@ export const SignUpForm = ({ actionData }: Props) => {
     console.log(actionData)
     return (
         <Card title="Sign Up">
-            <Form method="POST">
+            <Form
+                method="POST"
+                btnLabel="Submit">
                 <Input
                     name="firstName"
                     type="text"
