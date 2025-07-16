@@ -23,7 +23,7 @@ export default defineConfig({
     ],
     css: {
         modules: {
-            generateScopedName: '[hash:base64:16]]'
+            generateScopedName: '[hash:base64:16]'
         }
     }
 })

@@ -1,7 +1,6 @@
-import { NavLink } from '@remix-run/react'
+import { Form, NavLink } from '@remix-run/react'
 import { clsx } from 'clsx'
 
-import { Form } from '../Form/Form'
 import styles from './Header.module.scss'
 
 type Props = {
@@ -34,8 +33,8 @@ export const Header = ({ userId }: Props) => {
                     ) : (
                         <li>
                             <Form
-                                method="POST"
-                                btnLabel={undefined}>
+                                method="post"
+                                action="/logout">
                                 <button type="submit">Logout</button>
                             </Form>
                         </li>

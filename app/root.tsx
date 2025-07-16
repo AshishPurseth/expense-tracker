@@ -7,23 +7,17 @@ import { LayoutWrapper } from '~/common'
 
 import { getUserId } from './utils/session.server'
 
-export const links: LinksFunction = () => [
-    { rel: 'icon', href: '/favicon.png' },
-    { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-    {
-        rel: 'preconnect',
-        href: 'https://fonts.gstatic.com',
-        crossOrigin: 'anonymous'
-    },
-    {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap'
-    }
-]
+export const links: LinksFunction = () => [{ rel: 'icon', href: '/favicon.png' }]
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-    const userId = await getUserId(request)
-    return json({ userId })
+    try {
+        const userId = await getUserId(request) // Try to get user ID from session
+        return json({ userId }) // If the user is logged in, return userId
+    } catch (error) {
+        // Handle the case when the session doesn't exist or is expired (logout case)
+        console.error('Error fetching user ID:', error)
+        return json({ userId: null }) // Return null if no user session exists
+    }
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {

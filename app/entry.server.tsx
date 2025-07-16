@@ -29,6 +29,22 @@ export default function handleRequest(
         : handleBrowserRequest(request, responseStatusCode, responseHeaders, remixContext)
 }
 
+function setSecurityHeaders(headers: Headers) {
+    const isDev = process.env.NODE_ENV === 'development'
+
+    headers.set(
+        'Content-Security-Policy',
+        isDev
+            ? "default-src 'self' http://localhost:5173 ws://localhost:5173; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://localhost:5173; style-src 'self' 'unsafe-inline'; object-src 'none'"
+            : "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none'"
+    )
+    headers.set('X-Frame-Options', 'DENY')
+    headers.set('X-Content-Type-Options', 'nosniff')
+    headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+    headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
+    headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
+}
+
 function handleBotRequest(request: Request, responseStatusCode: number, responseHeaders: Headers, remixContext: EntryContext) {
     return new Promise((resolve, reject) => {
         let shellRendered = false
@@ -45,7 +61,7 @@ function handleBotRequest(request: Request, responseStatusCode: number, response
                     const stream = createReadableStreamFromReadable(body)
 
                     responseHeaders.set('Content-Type', 'text/html')
-
+                    setSecurityHeaders(responseHeaders)
                     resolve(
                         new Response(stream, {
                             headers: responseHeaders,
@@ -90,7 +106,7 @@ function handleBrowserRequest(request: Request, responseStatusCode: number, resp
                     const stream = createReadableStreamFromReadable(body)
 
                     responseHeaders.set('Content-Type', 'text/html')
-
+                    setSecurityHeaders(responseHeaders)
                     resolve(
                         new Response(stream, {
                             headers: responseHeaders,

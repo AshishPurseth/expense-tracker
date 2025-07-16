@@ -5,10 +5,11 @@ import { ReactNode } from 'react'
 import styles from './Form.module.scss'
 
 type Props = {
-    method: 'POST' | 'GET'
+    method: 'post' | 'get'
     children: ReactNode
     className?: string
     btnLabel?: string
+    action?: string
 }
 
 export const Form = ({ children, className, method, btnLabel }: Props) => {
