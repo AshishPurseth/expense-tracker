@@ -1,0 +1,10 @@
+# Auto detect text files and normalize line endings to LF in repo
+* text=auto
+
+# Treat SCSS, TS, JS, JSON as text
+*.ts text
+*.tsx text
+*.js text
+*.json text
+*.scss text
+*.d.ts text

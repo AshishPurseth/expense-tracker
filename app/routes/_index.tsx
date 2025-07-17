@@ -1,7 +1,15 @@
-import type { MetaFunction } from '@remix-run/node'
+import { json, type LoaderFunctionArgs, type MetaFunction } from '@remix-run/node'
+
+import { requireUserId } from '~/utils/session.server'
 
 export const meta: MetaFunction = () => {
     return [{ title: 'Expense Tracker' }, { name: 'description', content: 'Welcome to expense tracker app' }]
+}
+
+export async function loader({ request }: LoaderFunctionArgs) {
+    await requireUserId(request)
+
+    return json({ message: 'Welcome to your dashboard' })
 }
 
 export default function Index() {
