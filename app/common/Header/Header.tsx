@@ -27,9 +27,14 @@ export const Header = ({ userId }: Props) => {
                         <NavLink to="/">Grocery</NavLink>
                     </li>
                     {!userId ? (
-                        <li>
-                            <NavLink to="/login">Login</NavLink>
-                        </li>
+                        <>
+                            <li>
+                                <NavLink to="/login">Login</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/signup">Sign Up</NavLink>
+                            </li>
+                        </>
                     ) : (
                         <li>
                             <Form
@@ -39,9 +44,6 @@ export const Header = ({ userId }: Props) => {
                             </Form>
                         </li>
                     )}
-                    <li>
-                        <NavLink to="/signup">Sign Up</NavLink>
-                    </li>
                 </ul>
             </nav>
         </header>

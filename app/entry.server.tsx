@@ -26,8 +26,7 @@ export default function handleRequest(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     loadContext: AppLoadContext
 ) {
-    const ip = request.headers.get('X-Forwarded-For') || request.headers.get('cf-connecting-ip') || 'unknown'
-
+    const ip = request.headers.get('X-Forwarded-For')?.split(',')[0].trim() || request.headers.get('cf-connecting-ip') || 'unknown'
     if (isRateLimited(ip)) {
         responseHeaders.set('Content-Type', 'application/json')
         return new Response(JSON.stringify({ error: 'Too many requests. Please try again later.' }), { status: 429, headers: responseHeaders })
