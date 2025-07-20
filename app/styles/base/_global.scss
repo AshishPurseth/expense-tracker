@@ -28,3 +28,17 @@ a {
 li {
     list-style: none;
 }
+
+button {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-md;
+    color: $white;
+    border: none;
+    border-radius: 0.4rem;
+    background-color: $primary-color;
+    cursor: pointer;
+
+    &:hover {
+        background-color: color.adjust($primary-color, $lightness: -10%);
+    }
+}

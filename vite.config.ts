@@ -23,7 +23,8 @@ export default defineConfig({
     ],
     css: {
         modules: {
-            generateScopedName: '[hash:base64:16]'
+            localsConvention: 'camelCaseOnly',
+            generateScopedName: '[local]___[hash:base64:16]'
         }
     }
 })
