@@ -12,6 +12,8 @@ import { RemixServer } from '@remix-run/react'
 import { isbot } from 'isbot'
 import { renderToPipeableStream } from 'react-dom/server'
 
+import { isRateLimited } from './utils/ratelimit.server'
+
 const ABORT_DELAY = 5_000
 
 export default function handleRequest(
@@ -24,6 +26,13 @@ export default function handleRequest(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     loadContext: AppLoadContext
 ) {
+    const ip = request.headers.get('X-Forwarded-For') || request.headers.get('cf-connecting-ip') || 'unknown'
+
+    if (isRateLimited(ip)) {
+        responseHeaders.set('Content-Type', 'application/json')
+        return new Response(JSON.stringify({ error: 'Too many requests. Please try again later.' }), { status: 429, headers: responseHeaders })
+    }
+
     return isbot(request.headers.get('user-agent') || '')
         ? handleBotRequest(request, responseStatusCode, responseHeaders, remixContext)
         : handleBrowserRequest(request, responseStatusCode, responseHeaders, remixContext)
