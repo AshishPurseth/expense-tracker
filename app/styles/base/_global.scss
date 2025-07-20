@@ -39,6 +39,6 @@ button {
     cursor: pointer;
 
     &:hover {
-        background-color: color.adjust($primary-color, $lightness: -10%);
+        background-color: $primary-color;
     }
 }
