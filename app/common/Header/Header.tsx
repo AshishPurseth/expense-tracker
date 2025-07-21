@@ -1,5 +1,7 @@
 import { Form, NavLink } from '@remix-run/react'
 import { clsx } from 'clsx'
+import { useState } from 'react'
+import { FiMenu, FiX } from 'react-icons/fi'
 
 import styles from './Header.module.scss'
 
@@ -8,6 +10,11 @@ type Props = {
 }
 
 export const Header = ({ userId }: Props) => {
+    const [isOpen, setOpen] = useState<boolean>(false)
+
+    const toggle = () => {
+        setOpen(!isOpen)
+    }
     return (
         <header className={clsx(styles.header)}>
             <img
@@ -46,6 +53,7 @@ export const Header = ({ userId }: Props) => {
                     )}
                 </ul>
             </nav>
+            <div className={styles.menuIcon}>{isOpen ? <FiMenu onClick={() => toggle()} /> : <FiX onClick={() => toggle()} />}</div>
         </header>
     )
 }

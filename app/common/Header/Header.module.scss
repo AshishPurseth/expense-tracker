@@ -2,10 +2,13 @@
 @use '../../styles/abstracts/mixins' as *;
 
 .header {
+    position: sticky;
+    top: 0;
     display: grid;
     align-content: center;
     grid-template-columns: repeat(2, 1fr);
     grid-area: header;
+    height: 9rem;
     padding: 1rem;
     background-color: $primary-color;
 }
@@ -15,6 +18,7 @@
 }
 
 .nav {
+    position: relative;
     display: grid;
     align-content: center;
     ul {
@@ -28,5 +32,37 @@
                 font-size: 2rem;
             }
         }
+    }
+}
+
+.menuIcon {
+    display: none;
+}
+
+.menuIcon svg {
+    font-size: 3rem;
+    color: #fff;
+}
+
+@include respond(md) {
+    .nav {
+        position: absolute;
+        top: 9rem;
+        width: 100%;
+
+        ul {
+            display: grid;
+            justify-content: center;
+            grid-auto-flow: row;
+            background-color: $primary-color;
+            grid-row-gap: 2rem;
+        }
+    }
+
+    .menuIcon {
+        display: grid;
+        justify-content: end;
+        align-items: center;
+        cursor: pointer;
     }
 }
