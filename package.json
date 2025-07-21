@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "concurrently \"pnpm:remix\" \"pnpm:scss-types\"",
         "generate": "prisma generate",
-        "build": "pnpm generate && pnpm migrate deploy && remix vite:build",
+        "build": "pnpm generate && pnpm migrate:deploy && remix vite:build",
         "remix": "dotenvx run -- remix vite:dev",
         "lint:fix": "eslint --ext .ts,.tsx,.cjs,.js . --fix",
         "lint:stylelint": "stylelint \"**/*.{css,scss}\" --fix --config .stylelintrc.cjs",
@@ -17,6 +17,7 @@
         "typecheck": "tsc",
         "prepare": "husky",
         "migrate": "dotenvx run -- prisma migrate dev --name init",
+        "migrate:deploy": "dotenvx run -- prisma migrate deploy",
         "reset": "dotenvx run -- prisma migrate reset"
     },
     "dependencies": {
