@@ -2,13 +2,14 @@ import { ActionFunctionArgs, json, redirect } from '@remix-run/node'
 import { useActionData } from '@remix-run/react'
 
 import { SignUpForm } from '~/components'
+import { CreateFamily } from '~/data/createFamily.server'
 import { CreateUser } from '~/data/createUser.server'
 import { UserSignUpSchema } from '~/validations'
 
 type ActionErrors = {
     errors?: {
-        firstName?: string[]
-        lastName?: string[]
+        name?: string[]
+        family?: string[]
         email?: string[]
         password?: string[]
     }
@@ -26,7 +27,27 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         return json({ errors })
     }
 
-    await CreateUser(result.data)
+    const family = await CreateFamily(result.data)
+
+    await CreateUser(
+        {
+            name: result.data.name1,
+            email: result.data.email1,
+            password: result.data.password
+        },
+        family
+    )
+
+    if (result.data.email2 && result.data.name2) {
+        await CreateUser(
+            {
+                name: result.data.name2,
+                email: result.data.email2,
+                password: result.data.password
+            },
+            family
+        )
+    }
 
     return redirect('/')
 }

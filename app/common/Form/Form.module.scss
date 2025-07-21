@@ -1,9 +1,8 @@
 @use '../../styles/abstracts/variables' as *;
 
 .form {
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-md;
+    display: grid;
+    gap: 6rem;
 }
 
 .actions {

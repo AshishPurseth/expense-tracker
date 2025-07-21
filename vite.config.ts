@@ -26,5 +26,11 @@ export default defineConfig({
             localsConvention: 'camelCaseOnly',
             generateScopedName: '[local]___[hash:base64:16]'
         }
+    },
+    // vite.config.ts
+    server: {
+        hmr: {
+            overlay: false
+        }
     }
 })

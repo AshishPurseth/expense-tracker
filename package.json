@@ -16,7 +16,8 @@
         "start": "remix-serve ./build/server/index.js",
         "typecheck": "tsc",
         "prepare": "husky",
-        "migrate": "dotenvx run -- prisma migrate deploy"
+        "migrate": "dotenvx run -- prisma migrate dev --name init",
+        "reset": "dotenvx run -- prisma migrate reset"
     },
     "dependencies": {
         "@dotenvx/dotenvx": "^1.47.5",

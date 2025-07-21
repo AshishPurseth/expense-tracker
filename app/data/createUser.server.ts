@@ -1,16 +1,25 @@
+import type { Family } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
 import { prisma } from '~/utils'
-import type { UserSignUpSchema } from '~/validations'
 
-export const CreateUser = async (data: UserSignUpSchema) => {
+type SimpleUserData = {
+    name: string
+    email: string
+    password: string
+}
+
+export const CreateUser = async (data: SimpleUserData, family: Family) => {
     const hashPassword = await bcrypt.hash(data.password, 10)
+
     return prisma.user.create({
         data: {
-            first_name: data.firstName,
-            last_name: data.lastName,
+            name: data.name,
             email: data.email,
-            password: hashPassword
+            password: hashPassword,
+            family: {
+                connect: { id: family.id }
+            }
         }
     })
 }
