@@ -4,11 +4,10 @@
 .header {
     position: sticky;
     top: 0;
+    z-index: 1000;
     display: grid;
-    align-content: center;
-    grid-template-columns: repeat(2, 1fr);
-    grid-area: header;
-    height: 9rem;
+    align-items: center;
+    grid-template-columns: 1fr auto;
     padding: 1rem;
     background-color: $primary-color;
 }
@@ -18,51 +17,77 @@
 }
 
 .nav {
-    position: relative;
-    display: grid;
-    align-content: center;
     ul {
         display: grid;
         justify-content: end;
+        gap: 2rem;
         grid-auto-flow: column;
-        grid-column-gap: 2rem;
 
         li {
             a {
                 font-size: 2rem;
+                color: $white;
+            }
+        }
+    }
+
+    @include respond(md) {
+        position: absolute;
+        top: 9rem;
+        left: 0;
+        display: none;
+        width: 100%;
+        padding: 1rem 0;
+        text-align: center;
+        background-color: $primary-color;
+
+        ul {
+            justify-content: center;
+            gap: 1rem;
+            grid-auto-flow: row;
+
+            li {
+                a,
+                button {
+                    display: block;
+                    width: 100%;
+                    padding: 1rem 0;
+                }
             }
         }
     }
 }
 
+// Shown only when isOpen === true
+.navVisible {
+    @include respond(md) {
+        display: block;
+        animation: fadeIn 0.3s ease-in-out forwards;
+    }
+}
+
 .menuIcon {
     display: none;
-}
 
-.menuIcon svg {
-    font-size: 3rem;
-    color: #fff;
-}
-
-@include respond(md) {
-    .nav {
-        position: absolute;
-        top: 9rem;
-        width: 100%;
-
-        ul {
-            display: grid;
-            justify-content: center;
-            grid-auto-flow: row;
-            background-color: $primary-color;
-            grid-row-gap: 2rem;
-        }
+    svg {
+        font-size: 3rem;
+        color: $white;
     }
 
-    .menuIcon {
-        display: grid;
-        justify-content: end;
-        align-items: center;
+    @include respond(md) {
+        display: block;
         cursor: pointer;
+        justify-self: end;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-1rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

@@ -10,36 +10,67 @@ type Props = {
 }
 
 export const Header = ({ userId }: Props) => {
-    const [isOpen, setOpen] = useState<boolean>(false)
+    const [isOpen, setOpen] = useState(false)
 
-    const toggle = () => {
-        setOpen(!isOpen)
-    }
+    const toggle = () => setOpen((prev) => !prev)
+
     return (
-        <header className={clsx(styles.header)}>
+        <header className={styles.header}>
             <img
                 src="/purseth.png"
                 alt="Purseth Family Logo"
                 className={styles.logo}
             />
-            <nav className={clsx(styles.nav)}>
+
+            <div
+                className={styles.menuIcon}
+                onClick={toggle}
+                onKeyDown={(e) => e.key === 'Enter' && toggle()}
+                role="button"
+                tabIndex={0}
+                aria-label={isOpen ? 'Close menu' : 'Open menu'}>
+                {isOpen ? <FiX /> : <FiMenu />}
+            </div>
+
+            {/* Nav: hidden on mobile unless open */}
+            <nav className={clsx(styles.nav, isOpen && styles.navVisible)}>
                 <ul>
                     <li>
-                        <NavLink to="/">Home</NavLink>
+                        <NavLink
+                            to="/"
+                            onClick={toggle}>
+                            Home
+                        </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/">Expense</NavLink>
+                        <NavLink
+                            to="/expense"
+                            onClick={toggle}>
+                            Expense
+                        </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/">Grocery</NavLink>
+                        <NavLink
+                            to="/grocery"
+                            onClick={toggle}>
+                            Grocery
+                        </NavLink>
                     </li>
                     {!userId ? (
                         <>
                             <li>
-                                <NavLink to="/login">Login</NavLink>
+                                <NavLink
+                                    to="/login"
+                                    onClick={toggle}>
+                                    Login
+                                </NavLink>
                             </li>
                             <li>
-                                <NavLink to="/signup">Sign Up</NavLink>
+                                <NavLink
+                                    to="/signup"
+                                    onClick={toggle}>
+                                    Sign Up
+                                </NavLink>
                             </li>
                         </>
                     ) : (
@@ -47,13 +78,16 @@ export const Header = ({ userId }: Props) => {
                             <Form
                                 method="post"
                                 action="/logout">
-                                <button type="submit">Logout</button>
+                                <button
+                                    type="submit"
+                                    onClick={toggle}>
+                                    Logout
+                                </button>
                             </Form>
                         </li>
                     )}
                 </ul>
             </nav>
-            <div className={styles.menuIcon}>{isOpen ? <FiMenu onClick={() => toggle()} /> : <FiX onClick={() => toggle()} />}</div>
         </header>
     )
 }
