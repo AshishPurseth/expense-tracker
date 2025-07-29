@@ -49,13 +49,6 @@ export const Header = ({ userId }: Props) => {
                             Expense
                         </NavLink>
                     </li>
-                    <li>
-                        <NavLink
-                            to="/grocery"
-                            onClick={toggle}>
-                            Grocery
-                        </NavLink>
-                    </li>
                     {!userId ? (
                         <>
                             <li>

@@ -1,0 +1,10 @@
+.billCard {
+    width: 50rem;
+    height: fit-content;
+    box-shadow: 0 0.1rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.main {
+    display: grid;
+    justify-content: left;
+}

@@ -1,5 +1,7 @@
 import { Card, Form, Input } from '~/common'
 
+import styles from './LoginForm.module.scss'
+
 type Props = {
     actionData?: {
         errors?: {
@@ -11,9 +13,11 @@ type Props = {
 
 export const LoginForm = ({ actionData }: Props) => {
     return (
-        <Card title="Sign In">
+        <Card
+            title="Sign In"
+            className={styles.loginCard}>
             <Form
-                method="POST"
+                method="post"
                 btnLabel="Login">
                 <Input
                     name="email"

@@ -13,6 +13,7 @@ type Props = {
     name: string
     options: Option[]
     error?: string
+    className?: string
 } & SelectHTMLAttributes<HTMLSelectElement>
 
 export const Dropdown = ({ label, name, options, error, className, ...rest }: Props) => {
@@ -29,6 +30,7 @@ export const Dropdown = ({ label, name, options, error, className, ...rest }: Pr
                     id={name}
                     name={name}
                     className={styles.select}
+                    defaultValue=""
                     {...rest}>
                     <option
                         value=""
@@ -36,6 +38,7 @@ export const Dropdown = ({ label, name, options, error, className, ...rest }: Pr
                         hidden>
                         -- Select --
                     </option>
+
                     {options.map((opt) => (
                         <option
                             key={opt.value}

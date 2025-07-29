@@ -1,3 +1,5 @@
+import { FaUserShield } from 'react-icons/fa'
+
 import { Card, Form, Input } from '~/common'
 
 import styles from './SignUpForm.module.scss'
@@ -16,7 +18,10 @@ type Props = {
 }
 export const SignUpForm = ({ actionData }: Props) => {
     return (
-        <Card title="Family Sign Up (Only 2 Members Allowed)">
+        <Card
+            title="Family Sign Up (Only 2 Members Allowed)"
+            className={styles.signUpCard}
+            icon={<FaUserShield />}>
             <Form
                 method="post"
                 btnLabel="Submit">
