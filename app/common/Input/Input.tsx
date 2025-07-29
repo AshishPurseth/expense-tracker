@@ -8,6 +8,7 @@ type Props = {
     name: string
     error?: string
     icon?: React.ReactNode
+    placeholder?: string
 } & InputHTMLAttributes<HTMLInputElement>
 
 export const Input = ({ label, name, icon, error, className, ...rest }: Props) => {
