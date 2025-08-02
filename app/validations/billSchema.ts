@@ -5,7 +5,8 @@ export const BillSchema = z.object({
     amount: z.coerce.number().int().positive({
         message: 'Amount must be a positive number'
     }),
-    dueDate: z.coerce.date().optional()
+    dueDate: z.string().optional(),
+    address: z.string().nonempty('Address is required')
 })
 
 export type BillSchema = z.infer<typeof BillSchema>

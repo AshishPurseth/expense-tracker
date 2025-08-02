@@ -1,14 +1,24 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node'
-import { json, redirect } from '@remix-run/react'
+import { json, redirect, useLoaderData } from '@remix-run/react'
 
 import { Bill } from '~/components'
-import { requireUserId } from '~/utils/session.server'
+import { createBill } from '~/data/createBill.server'
+import { prisma } from '~/utils'
+import { getUserSession } from '~/utils/session.server'
 import { BillSchema } from '~/validations'
 
-export async function loader({ request }: LoaderFunctionArgs) {
-    await requireUserId(request)
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+    const session = await getUserSession(request)
+    const createdBy = session.get('email') || 'unknown-user'
 
-    return json({ message: 'Welcome to your dashboard' })
+    const bills = await prisma.bill.findMany({
+        where: { createdBy: createdBy },
+        orderBy: { createdAt: 'desc' }
+    })
+
+    console.log(bills)
+
+    return json({ bills })
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -23,11 +33,23 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         return json({ errors })
     }
 
-    console.log(result.data)
+    const session = await getUserSession(request)
+    const createdBy = session.get('email') || 'unknown-user'
+    const family = session.get('familyId') || 'unknown-family'
+
+    await createBill({
+        billName: result.data.billType,
+        billAmount: result.data.amount,
+        dueDate: result.data.dueDate?.toString() ?? '',
+        address: result.data.address,
+        family,
+        createdBy
+    })
 
     return redirect('/expense/bill')
 }
 
 export default function ExpenseBill() {
-    return <Bill />
+    const { bills } = useLoaderData<typeof loader>()
+    return <Bill bills={bills} />
 }

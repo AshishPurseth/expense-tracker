@@ -39,7 +39,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         return json({ error: { email: ['Invalid password'] } })
     }
 
-    return createUserSession(existingUser.id, '/')
+    return createUserSession(existingUser.id, existingUser.email, existingUser.familyId, '/')
 }
 
 export default function Login() {

@@ -31,9 +31,11 @@ export async function requireUserId(request: Request, redirectTo = new URL(reque
     return userId
 }
 
-export async function createUserSession(userId: number, redirectTo: string) {
+export async function createUserSession(userId: string, email: string, familyId: string, redirectTo: string) {
     const session = await sessionStorage.getSession()
     session.set('userId', userId)
+    session.set('email', email)
+    session.set('familyId', familyId)
 
     return redirect(redirectTo, {
         headers: {

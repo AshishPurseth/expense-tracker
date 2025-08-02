@@ -7,21 +7,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Family {
-  id      String   @id @default(uuid())
-  name    String?  
-  users   User[]  
+  id        String   @id @default(uuid())
+  name      String?
   createdAt DateTime @default(now())
+  users     User[]
 }
 
 model User {
   id        String   @id @default(uuid())
-  name      String
   email     String   @unique
   password  String
-  familyId  String
-  family    Family   @relation(fields: [familyId], references: [id])
   createdAt DateTime @default(now())
+  familyId  String
+  name      String
+  family    Family   @relation(fields: [familyId], references: [id])
 }
 
+model Bill {
+  id         String   @id @default(uuid())
+  billName   String
+  billAmount Float
+  dueDate    String?
+  family     String
+  createdBy  String
+  createdAt  DateTime @default(now())
+  address    String?
+}

@@ -7,7 +7,7 @@ export const EXPENSE_CATEGORIES = [
 
 export const BILL_CATEGORY_OPTIONS = [
     { label: 'Rent', value: 'rent' },
-    { label: 'Mobile Recharge', value: 'mobile-recharge' },
-    { label: 'Electric Bill', value: 'electric-bill' },
-    { label: 'Gas Bill', value: 'gas-bill' }
+    { label: 'Mobile Recharge', value: 'mobile_recharge' },
+    { label: 'Electric Bill', value: 'electric_bill' },
+    { label: 'Gas Bill', value: 'gas_bill' }
 ]

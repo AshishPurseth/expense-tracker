@@ -1,6 +1,6 @@
-import { Form as RemixForm, useNavigation } from '@remix-run/react'
+import { useFetcher } from '@remix-run/react'
 import { clsx } from 'clsx'
-import { ReactNode } from 'react'
+import { ReactNode, useRef } from 'react'
 
 import styles from './Form.module.scss'
 
@@ -12,24 +12,37 @@ type Props = {
     action?: string
 }
 
-export const Form = ({ children, className, method, btnLabel }: Props) => {
-    const navigation = useNavigation()
+export const Form = ({ children, className, method, action, btnLabel }: Props) => {
+    const fetcher = useFetcher()
+    const formRef = useRef<HTMLFormElement>(null)
 
-    const isSubmitting = navigation.state === 'submitting'
+    const isSubmitting = fetcher.state === 'submitting'
+
+    function onClickSubmit(e: React.MouseEvent<HTMLButtonElement>) {
+        e.preventDefault()
+        const form = formRef.current!
+
+        fetcher.submit(form, { method, action })
+        form.reset()
+    }
+
     return (
-        <RemixForm
+        <fetcher.Form
+            ref={formRef}
             method={method}
+            action={action}
             className={clsx(styles.form, className)}>
             {children}
-            {btnLabel !== undefined && (
+            {btnLabel && (
                 <div className={styles.actions}>
                     <button
                         type="submit"
-                        disabled={isSubmitting}>
-                        {isSubmitting ? 'Submitting...' : btnLabel}
+                        disabled={isSubmitting}
+                        onClick={onClickSubmit}>
+                        {isSubmitting ? 'Submitting…' : btnLabel}
                     </button>
                 </div>
             )}
-        </RemixForm>
+        </fetcher.Form>
     )
 }
