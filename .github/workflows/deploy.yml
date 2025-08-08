@@ -6,8 +6,10 @@ on:
 
 jobs:
     deploy:
+        # make sure these labels match your runner (check in GitHub UI)
         runs-on: [self-hosted, linux, X64]
-        timeout-minutes: 25
+
+        timeout-minutes: 20
 
         steps:
             - name: Checkout
@@ -16,8 +18,6 @@ jobs:
             - name: Show runner info
               run: |
                   echo "Runner labels: $RUNNER_OS $RUNNER_ARCH"
-                  pwd
-                  ls -la
                   docker --version
                   docker compose version
 
@@ -27,49 +27,16 @@ jobs:
                   groups
                   docker ps
 
-            # 👉 If your compose file is in a subfolder, change this to that path, e.g. ./infra
-            - name: Validate compose file
-              working-directory: ./
-              run: |
-                  echo "Working dir:"
-                  pwd
-                  echo "Listing:"
-                  ls -la
-                  echo "Show compose file if exists:"
-                  test -f docker-compose.yml && sed -n '1,200p' docker-compose.yml || echo "docker-compose.yml NOT FOUND in this folder"
-                  echo "docker compose config (validate):"
-                  docker compose config
-
             - name: Stop old containers
-              working-directory: ./
+              working-directory: ./ # <- folder with docker-compose.yml
               run: |
                   docker compose down || true
 
             - name: Build and start
-              working-directory: ./
-              env:
-                  # If your compose uses env vars, either ensure a .env file exists in this directory on the runner
-                  # or pass required values explicitly via env: here.
-                  COMPOSE_DOCKER_CLI_BUILD: 1
-                  DOCKER_BUILDKIT: 1
+              working-directory: ./ # <- folder with docker-compose.yml
               run: |
-                  set -euxo pipefail
                   docker compose pull || true
-                  # Plain progress to reveal build errors
-                  docker compose build --progress=plain
-                  docker compose up -d
-              # Always dump logs if the step fails
-              continue-on-error: true
-
-            - name: Dump service logs on failure
-              if: failure()
-              working-directory: ./
-              run: |
-                  echo "==== docker compose ps ===="
-                  docker compose ps
-                  echo "==== service logs (last 200 lines) ===="
-                  docker compose logs --tail=200 || true
-                  exit 1
+                  docker compose up -d --build
 
             - name: Health check
               run: |
