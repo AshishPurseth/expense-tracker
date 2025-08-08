@@ -1,44 +1,39 @@
-name: ec2 setup
-
+name: ec2 deploy
 on:
     push:
         branches: [master]
 
 jobs:
     deploy:
-        # make sure these labels match your runner (check in GitHub UI)
-        runs-on: [self-hosted, linux, X64]
-
-        timeout-minutes: 20
-
+        runs-on: self-hosted
+        timeout-minutes: 25
         steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+            - uses: actions/checkout@v4
 
             - name: Show runner info
               run: |
-                  echo "Runner labels: $RUNNER_OS $RUNNER_ARCH"
+                  pwd && ls -la
                   docker --version
                   docker compose version
 
-            - name: Ensure runner user can use docker
+            - name: Ensure .env for compose
               run: |
-                  whoami
-                  groups
-                  docker ps
+                  cp "$HOME/actions-runner/.env" ./.env
+                  chmod 600 ./.env
+                  sed -n '1,50p' .env | sed 's/=.*/=<hidden>/'
+
+            - name: Validate compose
+              run: docker compose config
 
             - name: Stop old containers
-              working-directory: ./ # <- folder with docker-compose.yml
-              run: |
-                  docker compose down || true
+              run: docker compose down || true
 
             - name: Build and start
-              working-directory: ./ # <- folder with docker-compose.yml
               run: |
                   docker compose pull || true
                   docker compose up -d --build
 
             - name: Health check
               run: |
-                  docker ps
-                  docker compose ls
+                  docker compose ps
+                  docker compose logs --tail=100
